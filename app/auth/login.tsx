@@ -15,6 +15,8 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { AnimatedInput, AnimatedButton } from '../components/AnimatedInput';
 import { useAuth } from '../utils/auth';
+import RegisterScreen from './register';
+import VerifyScreen from './verify';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,7 +24,13 @@ interface LoginScreenProps {
   onLoginSuccess?: () => void;
 }
 
+type AuthScreenType = 'login' | 'register' | 'verify';
+
 export default function LoginScreen({ onLoginSuccess }: LoginScreenProps) {
+  const [currentScreen, setCurrentScreen] = useState<AuthScreenType>('login');
+  const [verificationEmail, setVerificationEmail] = useState('');
+  
+  // Estados del login
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -73,6 +81,55 @@ export default function LoginScreen({ onLoginSuccess }: LoginScreenProps) {
       setShowWelcome(false);
     }, 3000);
   }, []);
+
+  // Navigazione tra schermate
+  const handleGoToRegister = () => {
+    setCurrentScreen('register');
+  };
+
+  const handleGoToLogin = () => {
+    setCurrentScreen('login');
+  };
+
+  const handleRegisterSuccess = (email: string) => {
+    setVerificationEmail(email);
+    setCurrentScreen('verify');
+  };
+
+  const handleVerificationSuccess = () => {
+    Alert.alert(
+      '🎉 Benvenuto!',
+      'Account verificato con successo! Ora puoi accedere.',
+      [
+        { 
+          text: 'Accedi', 
+          onPress: () => {
+            setCurrentScreen('login');
+          }
+        }
+      ]
+    );
+  };
+
+  // Renderizza la schermata corrente
+  if (currentScreen === 'register') {
+    return (
+      <RegisterScreen 
+        onBackToLogin={handleGoToLogin}
+        onRegisterSuccess={handleRegisterSuccess}
+      />
+    );
+  }
+
+  if (currentScreen === 'verify') {
+    return (
+      <VerifyScreen 
+        email={verificationEmail}
+        onBackToLogin={handleGoToLogin}
+        onVerificationSuccess={handleVerificationSuccess}
+      />
+    );
+  }
 
   // Validazione email
   const validateEmail = (email: string) => {
@@ -138,13 +195,6 @@ export default function LoginScreen({ onLoginSuccess }: LoginScreenProps) {
     } finally {
       setLoading(false);
     }
-  };
-
-  // Navigazione alla registrazione
-  const handleRegister = () => {
-    // Qui navigheresti alla pagina di registrazione
-    console.log('Navigate to register');
-    Alert.alert('🚀 Registrazione', 'Funzione in arrivo nella prossima fase!');
   };
 
   // Reset password
@@ -296,7 +346,7 @@ export default function LoginScreen({ onLoginSuccess }: LoginScreenProps) {
               {/* Register Button */}
               <AnimatedButton
                 title="Crea Account"
-                onPress={handleRegister}
+                onPress={handleGoToRegister}
                 variant="secondary"
                 icon="➕"
                 style={styles.registerButton}
