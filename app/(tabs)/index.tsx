@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { Alert } from 'react-native';
 
 export default function HomeScreen() {
   return (
@@ -10,8 +11,42 @@ export default function HomeScreen() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>🛒 SuperManager</Text>
-          <Text style={styles.subtitle}>Gestisci il tuo supermercato</Text>
+          <View style={styles.headerContent}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>🛒 SuperManager</Text>
+              <Text style={styles.subtitle}>Gestisci il tuo supermercato</Text>
+            </View>
+            <TouchableOpacity 
+              style={styles.logoutButton}
+              onPress={async () => {
+                Alert.alert(
+                  '🚪 Logout',
+                  'Sei sicuro di voler uscire?',
+                  [
+                    { text: 'Annulla', style: 'cancel' },
+                    { 
+                      text: 'Esci', 
+                      style: 'destructive',
+                      onPress: async () => {
+                        try {
+                          const { authManager } = await import('../utils/auth');
+                          await authManager.logout();
+                          // Forza reload dell'app
+                          if (typeof window !== 'undefined') {
+                            window.location.reload();
+                          }
+                        } catch (error) {
+                          console.error('Errore logout:', error);
+                        }
+                      }
+                    }
+                  ]
+                );
+              }}
+            >
+              <Text style={styles.logoutIcon}>🚪</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Stats Cards */}
@@ -95,6 +130,14 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     marginBottom: 20,
   },
+  headerContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  titleContainer: {
+    flex: 1,
+  },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -106,6 +149,23 @@ const styles = StyleSheet.create({
     color: '#e2e8f0',
     textAlign: 'center',
     marginTop: 5,
+  },
+  logoutButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    width: 45,
+    height: 45,
+    borderRadius: 22.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  logoutIcon: {
+    fontSize: 20,
+    color: '#ffffff',
   },
   statsContainer: {
     flexDirection: 'row',
