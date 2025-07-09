@@ -1,75 +1,217 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={styles.title}>🛒 SuperManager</Text>
+          <Text style={styles.subtitle}>Gestisci il tuo supermercato</Text>
+        </View>
+
+        {/* Stats Cards */}
+        <View style={styles.statsContainer}>
+          <View style={styles.statCard}>
+            <Text style={styles.statNumber}>150</Text>
+            <Text style={styles.statLabel}>Prodotti</Text>
+          </View>
+          <View style={styles.statCard}>
+            <Text style={styles.statNumber}>12</Text>
+            <Text style={styles.statLabel}>Categorie</Text>
+          </View>
+        </View>
+
+        {/* Main Actions */}
+        <View style={styles.actionsContainer}>
+          <TouchableOpacity style={[styles.actionButton, styles.scanButton]}>
+            <Text style={styles.actionIcon}>📷</Text>
+            <Text style={styles.actionTitle}>Scansiona Prodotto</Text>
+            <Text style={styles.actionSubtitle}>Leggi o genera codice a barre</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.actionButton, styles.inventoryButton]}>
+            <Text style={styles.actionIcon}>📦</Text>
+            <Text style={styles.actionTitle}>Inventario</Text>
+            <Text style={styles.actionSubtitle}>Gestisci tutti i prodotti</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.actionButton, styles.addButton]}>
+            <Text style={styles.actionIcon}>➕</Text>
+            <Text style={styles.actionTitle}>Aggiungi Prodotto</Text>
+            <Text style={styles.actionSubtitle}>Inserisci nuovo articolo</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.actionButton, styles.reportButton]}>
+            <Text style={styles.actionIcon}>📊</Text>
+            <Text style={styles.actionTitle}>Report</Text>
+            <Text style={styles.actionSubtitle}>Statistiche e analisi</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Quick Actions */}
+        <View style={styles.quickActionsContainer}>
+          <Text style={styles.sectionTitle}>Azioni Rapide</Text>
+          <View style={styles.quickActionsRow}>
+            <TouchableOpacity style={styles.quickAction}>
+              <Text style={styles.quickActionIcon}>🔍</Text>
+              <Text style={styles.quickActionText}>Cerca</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.quickAction}>
+              <Text style={styles.quickActionIcon}>🏷️</Text>
+              <Text style={styles.quickActionText}>Etichette</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.quickAction}>
+              <Text style={styles.quickActionIcon}>📤</Text>
+              <Text style={styles.quickActionText}>Esporta</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.quickAction}>
+              <Text style={styles.quickActionIcon}>⚙️</Text>
+              <Text style={styles.quickActionText}>Impostazioni</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: '#f8f9fa',
   },
-  stepContainer: {
-    gap: 8,
+  scrollContent: {
+    paddingBottom: 100, // Spazio extra per lo scroll
+  },
+  header: {
+    padding: 20,
+    backgroundColor: '#2563eb',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#e2e8f0',
+    textAlign: 'center',
+    marginTop: 5,
+  },
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingHorizontal: 20,
+    marginBottom: 25,
+  },
+  statCard: {
+    backgroundColor: '#ffffff',
+    padding: 20,
+    borderRadius: 15,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+    minWidth: 100,
+  },
+  statNumber: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#1f2937',
+  },
+  statLabel: {
+    fontSize: 14,
+    color: '#6b7280',
+    marginTop: 5,
+  },
+  actionsContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 30,
+  },
+  actionButton: {
+    backgroundColor: '#ffffff',
+    padding: 20,
+    borderRadius: 15,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  scanButton: {
+    borderLeftWidth: 4,
+    borderLeftColor: '#10b981',
+  },
+  inventoryButton: {
+    borderLeftWidth: 4,
+    borderLeftColor: '#f59e0b',
+  },
+  addButton: {
+    borderLeftWidth: 4,
+    borderLeftColor: '#8b5cf6',
+  },
+  reportButton: {
+    borderLeftWidth: 4,
+    borderLeftColor: '#ef4444',
+  },
+  actionIcon: {
+    fontSize: 24,
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  actionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#1f2937',
+    marginBottom: 5,
+  },
+  actionSubtitle: {
+    fontSize: 14,
+    color: '#6b7280',
+  },
+  quickActionsContainer: {
+    paddingHorizontal: 20,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1f2937',
+    marginBottom: 15,
+  },
+  quickActionsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  quickAction: {
+    backgroundColor: '#ffffff',
+    padding: 15,
+    borderRadius: 12,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+    minWidth: 70,
+  },
+  quickActionIcon: {
+    fontSize: 20,
+    marginBottom: 5,
+  },
+  quickActionText: {
+    fontSize: 12,
+    color: '#4b5563',
+    textAlign: 'center',
   },
 });
