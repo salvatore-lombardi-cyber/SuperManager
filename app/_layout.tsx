@@ -2,10 +2,12 @@ import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { authManager } from './utils/auth';
 import LoginScreen from './auth/login';
+import SplashScreen from './components/SplashScreen';
 
 export default function RootLayout() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     checkAuthStatus();
@@ -28,6 +30,16 @@ export default function RootLayout() {
     const authenticated = await authManager.isAuthenticated();
     setIsAuthenticated(authenticated);
   };
+
+  // Gestione fine splash screen
+  const handleSplashFinish = () => {
+    setShowSplash(false);
+  };
+
+  // Mostra splash screen
+  if (showSplash) {
+    return <SplashScreen onFinish={handleSplashFinish} />;
+  }
 
   if (isLoading) {
     return null; // Oppure un loading screen

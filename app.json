@@ -4,38 +4,37 @@
     "slug": "supermanager",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.svg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo.svg",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#667eea"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.salvatorelombardi.supermanager",
       "infoPlist": {
         "NSCameraUsageDescription": "SuperManager ha bisogno della camera per scansionare i codici a barre dei prodotti."
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/logo.svg",
+        "backgroundColor": "#667eea"
       },
+      "package": "com.salvatorelombardi.supermanager",
       "permissions": [
         "android.permission.CAMERA"
       ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logo.svg"
     },
     "plugins": [
       "expo-router",
-      "expo-barcode-scanner",
-      "expo-sqlite"
+      "expo-barcode-scanner"
     ],
     "scheme": "supermanager"
   }
