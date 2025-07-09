@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { authManager } from './utils/auth';
+import { notificationManager } from './utils/notifications';
 import LoginScreen from './auth/login';
 import SplashScreen from './components/SplashScreen';
 
@@ -16,6 +17,7 @@ export default function RootLayout() {
   const checkAuthStatus = async () => {
     try {
       await authManager.initAuth(); // Inizializza l'auth
+      await notificationManager.initialize(); // Inizializza le notifiche
       const authenticated = await authManager.isAuthenticated();
       setIsAuthenticated(authenticated);
     } catch (error) {

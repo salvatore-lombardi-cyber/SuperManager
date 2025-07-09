@@ -49,15 +49,26 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="notifications"
+        options={{
+          title: 'Notifiche',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name="notifications" color={color} focused={focused} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
 
+// Icon component using React Native components
 function TabBarIcon({ name, color, focused }: { name: string; color: string; focused: boolean }) {
-  const icons: { [key: string]: string } = {
+  const icons = {
     home: '🏠',
     camera: '📷',
     archive: '📦',
+    notifications: '🔔',
   };
   
   return (

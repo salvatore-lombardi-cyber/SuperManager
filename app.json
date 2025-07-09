@@ -26,7 +26,8 @@
       },
       "package": "com.salvatorelombardi.supermanager",
       "permissions": [
-        "android.permission.CAMERA"
+        "android.permission.CAMERA",
+        "android.permission.VIBRATE"
       ]
     },
     "web": {
@@ -34,7 +35,15 @@
     },
     "plugins": [
       "expo-router",
-      "expo-barcode-scanner"
+      "expo-barcode-scanner",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/logo.svg",
+          "color": "#667eea",
+          "defaultChannel": "default"
+        }
+      ]
     ],
     "scheme": "supermanager"
   }
